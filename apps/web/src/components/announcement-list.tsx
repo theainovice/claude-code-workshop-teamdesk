@@ -1,5 +1,6 @@
 import type { Announcement } from "@repo/db/shared";
 import { formatUtc } from "#/lib/datetime";
+import EmptyState from "./empty-state";
 
 interface AnnouncementListProps {
   announcements: readonly Announcement[];
@@ -11,9 +12,7 @@ export default function AnnouncementList({
   memberNames,
 }: AnnouncementListProps) {
   if (announcements.length === 0) {
-    return (
-      <p className="text-muted-foreground text-sm">No announcements yet.</p>
-    );
+    return <EmptyState>No announcements yet.</EmptyState>;
   }
   return (
     <ul className="m-0 list-none space-y-4 p-0">

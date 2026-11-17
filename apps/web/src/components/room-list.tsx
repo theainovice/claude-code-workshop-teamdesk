@@ -1,6 +1,7 @@
 import type { Room } from "@repo/db/shared";
 import { type MouseEvent, useCallback } from "react";
 import { Button } from "#/components/ui/button";
+import EmptyState from "./empty-state";
 
 interface RoomListProps {
   disabled: boolean;
@@ -20,7 +21,7 @@ export default function RoomList({
   );
 
   if (rooms.length === 0) {
-    return <p className="text-muted-foreground text-sm">No rooms yet.</p>;
+    return <EmptyState>No rooms yet.</EmptyState>;
   }
   return (
     <ul className="m-0 list-none space-y-4 p-0">

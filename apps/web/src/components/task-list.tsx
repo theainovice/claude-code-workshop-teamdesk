@@ -5,6 +5,7 @@ import {
   NativeSelect,
   NativeSelectOption,
 } from "#/components/ui/native-select";
+import EmptyState from "./empty-state";
 
 interface TaskListProps {
   disabled: boolean;
@@ -38,11 +39,7 @@ export default function TaskList({
   );
 
   if (tasks.length === 0) {
-    return (
-      <p className="text-muted-foreground text-sm">
-        No tasks yet. Add the first one above.
-      </p>
-    );
+    return <EmptyState>No tasks yet. Add the first one above.</EmptyState>;
   }
   return (
     <ul className="m-0 list-none space-y-4 p-0">

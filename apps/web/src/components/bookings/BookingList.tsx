@@ -1,4 +1,5 @@
 import type { Booking } from "@repo/db/shared";
+import EmptyState from "../empty-state";
 import BookingCard from "./BookingCard";
 
 interface BookingListProps {
@@ -17,7 +18,7 @@ export default function BookingList({
   onCancel,
 }: BookingListProps) {
   if (bookings.length === 0) {
-    return <p className="text-muted-foreground text-sm">{emptyText}</p>;
+    return <EmptyState>{emptyText}</EmptyState>;
   }
   return (
     <ul className="m-0 list-none space-y-4 p-0">

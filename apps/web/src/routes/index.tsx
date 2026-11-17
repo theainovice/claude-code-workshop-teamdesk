@@ -31,7 +31,7 @@ function App() {
     <main className="page-wrap px-4 pt-14 pb-8">
       <section className="rise-in pt-6 pb-4 sm:pt-10">
         <p className="island-kicker mb-4">Teamdesk</p>
-        <h1 className="display-title mb-5 max-w-3xl text-5xl text-foreground leading-[1.05] sm:text-6xl">
+        <h1 className="display-title leaf-divider mb-5 max-w-3xl text-5xl text-foreground leading-[1.05] sm:text-6xl">
           Rooms, bookings and tasks for a small team.
         </h1>
         <p className="mb-8 max-w-2xl text-base text-muted-foreground sm:text-lg">

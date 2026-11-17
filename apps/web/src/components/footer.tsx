@@ -1,17 +1,27 @@
 import { Button } from "#/components/ui/button";
 import { Separator } from "#/components/ui/separator";
+import SootSprites from "./soot-sprites";
 
 export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="site-footer px-4 pt-10 pb-14 text-muted-foreground">
+    <footer className="site-footer relative px-4 pt-10 pb-14 text-muted-foreground">
+      <SootSprites className="footer-sprites" />
       <div className="page-wrap flex flex-col items-center justify-between gap-4 text-center sm:flex-row sm:text-left">
         <p className="m-0 text-sm">
           &copy; {year} Your name here. All rights reserved.
         </p>
         <p className="island-kicker m-0">Built with TanStack Start</p>
       </div>
+      <p
+        className="m-0 mt-4 text-center text-sm"
+        lang="ja"
+        title="Have a good day today"
+      >
+        今日もいい一日を
+        <span className="sr-only"> (Have a good day today)</span>
+      </p>
       <Separator className="my-4" />
       <div className="flex justify-center gap-4">
         <Button asChild size="icon" variant="ghost">

@@ -5,6 +5,7 @@ import {
   useRouter,
 } from "@tanstack/react-router";
 import { type ChangeEvent, type FormEvent, useCallback, useState } from "react";
+import EmptyState from "#/components/empty-state";
 import { Button } from "#/components/ui/button";
 import { Input } from "#/components/ui/input";
 import { getTrpc } from "#/integrations/trpc/client";
@@ -50,7 +51,7 @@ function NotesPage() {
     <main className="page-wrap px-4 py-12">
       <section className="max-w-3xl">
         <p className="island-kicker mb-3">Cloudflare D1</p>
-        <h1 className="display-title mb-4 text-4xl text-foreground sm:text-5xl">
+        <h1 className="display-title leaf-divider mb-4 text-4xl text-foreground sm:text-5xl">
           Notes
         </h1>
         <p className="m-0 max-w-3xl text-base text-muted-foreground leading-8">
@@ -86,9 +87,7 @@ function NotesPage() {
 
       <section className="mt-10">
         {notes.length === 0 ? (
-          <p className="text-muted-foreground text-sm">
-            No notes yet. Add the first one above.
-          </p>
+          <EmptyState>No notes yet. Add the first one above.</EmptyState>
         ) : (
           <ul className="m-0 list-none space-y-4 p-0">
             {notes.map((note) => (
@@ -115,7 +114,7 @@ function NotesError({ error }: ErrorComponentProps) {
     <main className="page-wrap px-4 py-12">
       <section className="island-shell max-w-3xl p-6 sm:p-8">
         <p className="island-kicker mb-3">Cloudflare D1</p>
-        <h1 className="display-title mb-4 text-3xl text-foreground">
+        <h1 className="display-title leaf-divider mb-4 text-3xl text-foreground">
           Could not reach D1
         </h1>
         <p className="m-0 text-muted-foreground text-sm leading-7">
