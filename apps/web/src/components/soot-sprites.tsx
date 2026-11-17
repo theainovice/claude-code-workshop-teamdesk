@@ -4,8 +4,6 @@ interface SootSpriteProps {
 }
 
 const DEFAULT_SIZE = 28;
-const SPRITE_COUNT = 3;
-const SPRITE_KEYS = ["a", "b", "c"] as const;
 
 /** One soot sprite: a black fuzzball with two white eyes. */
 export function SootSprite({
@@ -39,13 +37,18 @@ export function SootSprite({
 /** A small group of sprites that bob out of step with each other. */
 export default function SootSprites({
   className = "",
+  count = 3,
+  size,
 }: {
   className?: string;
+  count?: number;
+  size?: number;
 }) {
   return (
     <div aria-hidden="true" className={`flex items-end gap-2 ${className}`}>
-      {SPRITE_KEYS.slice(0, SPRITE_COUNT).map((key) => (
-        <SootSprite className="sprite-bob" key={key} />
+      {Array.from({ length: count }, (_, i) => (
+        // biome-ignore lint/suspicious/noArrayIndexKey: sprites are identical and never reorder
+        <SootSprite className="sprite-bob" key={`sprite-${i}`} size={size} />
       ))}
     </div>
   );
