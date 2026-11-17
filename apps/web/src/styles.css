@@ -73,7 +73,7 @@
   --popover: #ffffff;
   --popover-foreground: var(--brand-forest);
   --primary: var(--brand-meadow);
-  --primary-foreground: var(--brand-forest); /* 4.6:1 on meadow green */
+  --primary-foreground: #1a271f; /* 4.8:1 on meadow green */
   --secondary: #e8efd9;
   --secondary-foreground: var(--brand-forest);
   --muted: #e8efd9;
@@ -83,7 +83,7 @@
   --destructive: #b8382e;
   --border: #d6dfc4;
   --input: #d6dfc4;
-  --ring: var(--brand-sky);
+  --ring: #3a86b0; /* 3.8:1 on cream, for focus rings */
   --chart-1: var(--brand-meadow);
   --chart-2: var(--brand-sky);
   --chart-3: #c9a24a;
@@ -92,11 +92,11 @@
   --sidebar: var(--brand-cream);
   --sidebar-foreground: var(--brand-forest);
   --sidebar-primary: var(--brand-meadow);
-  --sidebar-primary-foreground: var(--brand-forest);
+  --sidebar-primary-foreground: #1a271f;
   --sidebar-accent: #e8efd9;
   --sidebar-accent-foreground: var(--brand-forest);
   --sidebar-border: #d6dfc4;
-  --sidebar-ring: var(--brand-sky);
+  --sidebar-ring: #3a86b0;
 
   /* Green text needs a darker step to pass AA on cream. */
   --brand-label: #2f6b3a;
@@ -286,6 +286,9 @@ body {
   pointer-events: none;
   content: "";
   background: var(--cloud-fill);
+  -webkit-mask:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 112 48'%3E%3Ccircle cx='34' cy='30' r='14'/%3E%3Ccircle cx='56' cy='22' r='18'/%3E%3Ccircle cx='80' cy='30' r='14'/%3E%3Crect x='34' y='30' width='46' height='14'/%3E%3C/svg%3E")
+    no-repeat center / contain;
   mask:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 112 48'%3E%3Ccircle cx='34' cy='30' r='14'/%3E%3Ccircle cx='56' cy='22' r='18'/%3E%3Ccircle cx='80' cy='30' r='14'/%3E%3Crect x='34' y='30' width='46' height='14'/%3E%3C/svg%3E")
     no-repeat center / contain;
@@ -308,6 +311,9 @@ body {
   margin-top: 0.6rem;
   content: "";
   background: var(--primary);
+  -webkit-mask:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 56 14'%3E%3Cpath d='M0 7h38' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M40 13C40 6 44 1 55 1c0 8-4 12-15 12z'/%3E%3C/svg%3E")
+    no-repeat left center / contain;
   mask:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 56 14'%3E%3Cpath d='M0 7h38' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M40 13C40 6 44 1 55 1c0 8-4 12-15 12z'/%3E%3C/svg%3E")
     no-repeat left center / contain;

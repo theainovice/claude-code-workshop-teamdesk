@@ -20,6 +20,7 @@ export default function Footer() {
         title="Have a good day today"
       >
         今日もいい一日を
+        <span className="sr-only"> (Have a good day today)</span>
       </p>
       <Separator className="my-4" />
       <div className="flex justify-center gap-4">

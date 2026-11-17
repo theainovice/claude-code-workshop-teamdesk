@@ -12,9 +12,9 @@ export default function LeafIcon({ className = "" }: { className?: string }) {
       <path
         d="M3 21L14 10"
         fill="none"
-        stroke="var(--background)"
         strokeLinecap="round"
         strokeWidth="1.6"
+        style={{ stroke: "var(--background)" }}
       />
     </svg>
   );
