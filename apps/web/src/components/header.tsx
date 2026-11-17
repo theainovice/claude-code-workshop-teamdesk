@@ -1,18 +1,25 @@
 import { Link } from "@tanstack/react-router";
+import LeafIcon from "./leaf-icon";
 import ThemeToggle from "./theme-toggle";
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-50 border-border border-b bg-background/90 px-4 backdrop-blur-lg">
+    <header className="site-header sticky top-0 z-50 border-border border-b px-4 backdrop-blur-lg">
       <nav className="page-wrap flex flex-wrap items-center gap-x-3 gap-y-2 py-3 sm:py-4">
         <h2 className="m-0 flex-shrink-0 text-base">
           <Link
             className="inline-flex items-center gap-2.5 font-heading text-foreground text-xl no-underline"
             to="/"
           >
-            <span className="h-2.5 w-2.5 rounded-full bg-primary" />
+            <LeafIcon className="text-primary" />
             Teamdesk
           </Link>
+          <span
+            className="ml-2 hidden font-sans text-muted-foreground text-xs sm:inline"
+            lang="ja"
+          >
+            ようこそ
+          </span>
         </h2>
 
         <div className="order-3 flex w-full flex-wrap items-center gap-x-4 gap-y-1 pb-1 font-semibold text-sm sm:order-none sm:w-auto sm:pb-0">

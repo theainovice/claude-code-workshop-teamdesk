@@ -9,7 +9,7 @@ function About() {
     <main className="page-wrap px-4 py-12">
       <section className="max-w-3xl">
         <p className="island-kicker mb-3">About</p>
-        <h1 className="display-title mb-4 text-4xl text-foreground sm:text-5xl">
+        <h1 className="display-title leaf-divider mb-4 text-4xl text-foreground sm:text-5xl">
           A small starter with room to grow.
         </h1>
         <p className="m-0 max-w-3xl text-base text-muted-foreground leading-8">

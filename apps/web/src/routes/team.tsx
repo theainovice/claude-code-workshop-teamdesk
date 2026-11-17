@@ -92,7 +92,7 @@ function TeamPage() {
     <main className="page-wrap px-4 py-12">
       <section className="flex max-w-3xl flex-col gap-4">
         <p className="island-kicker m-0">Teamdesk</p>
-        <h1 className="display-title m-0 text-4xl text-foreground sm:text-5xl">
+        <h1 className="display-title leaf-divider m-0 text-4xl text-foreground sm:text-5xl">
           Team
         </h1>
         <p className="m-0 text-base text-muted-foreground leading-8">
