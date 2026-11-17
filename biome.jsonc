@@ -11,7 +11,11 @@
   // a JSX attribute. Linting them is pointless too - the findings could only ever be
   // resolved by editing vendored code.
   "files": {
-    "includes": ["!**/components/ui", "!**/hooks/use-mobile.ts"]
+    "includes": [
+      "!**/components/ui",
+      "!**/hooks/use-mobile.ts",
+      "!**/doc/mockups"
+    ]
   },
   // The booking components came over from the first prototype with
   // PascalCase file names. Rename them before adding more.

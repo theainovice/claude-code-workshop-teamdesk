@@ -1,0 +1,1156 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>Teamdesk | Bookings</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Mochiy+Pop+One&display=swap"
+      rel="stylesheet"
+    >
+    <style>
+    :root {
+      --green: #2f9e5b;
+      --sky: #7ec8f0;
+      --sky-soft: #c4e8f9;
+      --orange: #f08a24;
+      --cream: #fff6dc;
+      --soot: #1d1f1c;
+      --ink-soft: #3a3e37; /* secondary text on cream, 10:1 */
+      --ph: #575a53; /* placeholder on white, 6.9:1 */
+      --r-lg: 20px;
+      --r-sm: 10px; /* the only two radii */
+      --ease: cubic-bezier(0.23, 1, 0.32, 1);
+      --display:
+        "Mochiy Pop One", "Hiragino Maru Gothic ProN", system-ui, sans-serif;
+      --body: "Hanken Grotesk", system-ui, sans-serif;
+      --keyline: 0 0 0 3px #fff, 0 10px 22px -8px rgba(29, 31, 28, 0.35);
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+    }
+    html {
+      -webkit-text-size-adjust: 100%;
+    }
+    body {
+      overflow-x: hidden;
+      font-family: var(--body);
+      font-size: 1rem;
+      line-height: 1.5;
+      color: var(--soot);
+      background: var(--cream);
+    }
+    h1,
+    h2,
+    h3 {
+      font-family: var(--display);
+      font-weight: 400;
+      line-height: 1.05;
+      text-wrap: balance;
+    }
+    p {
+      max-width: 65ch;
+    }
+    :focus-visible {
+      outline: 3px solid var(--soot);
+      outline-offset: 3px;
+    }
+    .wrap {
+      width: min(1180px, 100% - 32px);
+      margin-inline: auto;
+    }
+
+    /* grain */
+    .grain {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      mix-blend-mode: multiply;
+      opacity: 0.09;
+    }
+
+    /* ---------- sky + hero ---------- */
+    .hero {
+      position: relative;
+      padding-bottom: 56px;
+      background: linear-gradient(180deg, var(--sky) 0%, var(--sky-soft) 100%);
+      isolation: isolate;
+    }
+    .sky {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden;
+    }
+    .clouds {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: calc(100% + 1400px);
+      height: 100%;
+      background-repeat: repeat-x;
+      background-size: 1400px 100%;
+      will-change: transform;
+    }
+    .clouds.near {
+      background-image:
+        radial-gradient(
+          ellipse 120px 62px at 150px 150px,
+          #fff 55%,
+          rgba(255, 255, 255, 0) 100%
+        ),
+        radial-gradient(
+          ellipse 90px 70px at 230px 120px,
+          #fff 55%,
+          rgba(255, 255, 255, 0) 100%
+        ),
+        radial-gradient(
+          ellipse 100px 56px at 320px 150px,
+          #fff 55%,
+          rgba(255, 255, 255, 0) 100%
+        ),
+        radial-gradient(
+          ellipse 150px 50px at 230px 175px,
+          #fff 60%,
+          rgba(255, 255, 255, 0) 100%
+        ),
+        radial-gradient(
+          ellipse 110px 58px at 900px 330px,
+          #fff 55%,
+          rgba(255, 255, 255, 0) 100%
+        ),
+        radial-gradient(
+          ellipse 80px 66px at 970px 300px,
+          #fff 55%,
+          rgba(255, 255, 255, 0) 100%
+        ),
+        radial-gradient(
+          ellipse 100px 54px at 1050px 330px,
+          #fff 55%,
+          rgba(255, 255, 255, 0) 100%
+        ),
+        radial-gradient(
+          ellipse 140px 46px at 980px 352px,
+          #fff 60%,
+          rgba(255, 255, 255, 0) 100%
+        );
+      animation: drift 140s linear infinite;
+    }
+    .clouds.far {
+      background-image:
+        radial-gradient(
+          ellipse 70px 34px at 120px 70px,
+          #fff 55%,
+          rgba(255, 255, 255, 0) 100%
+        ),
+        radial-gradient(
+          ellipse 54px 40px at 175px 54px,
+          #fff 55%,
+          rgba(255, 255, 255, 0) 100%
+        ),
+        radial-gradient(
+          ellipse 80px 28px at 150px 84px,
+          #fff 60%,
+          rgba(255, 255, 255, 0) 100%
+        ),
+        radial-gradient(
+          ellipse 66px 32px at 660px 250px,
+          #fff 55%,
+          rgba(255, 255, 255, 0) 100%
+        ),
+        radial-gradient(
+          ellipse 50px 38px at 710px 232px,
+          #fff 55%,
+          rgba(255, 255, 255, 0) 100%
+        ),
+        radial-gradient(
+          ellipse 76px 26px at 690px 262px,
+          #fff 60%,
+          rgba(255, 255, 255, 0) 100%
+        );
+      background-size: 1000px 100%;
+      opacity: 0.7;
+      animation: drift-far 220s linear infinite;
+    }
+    @keyframes drift {
+      to {
+        transform: translateX(-1400px);
+      }
+    }
+    @keyframes drift-far {
+      to {
+        transform: translateX(-1000px);
+      }
+    }
+
+    /* nav */
+    .nav {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      height: 64px;
+    }
+    .nav-in {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      width: 100%;
+      height: 56px;
+      padding: 0 8px 0 18px;
+      background: var(--cream);
+      border-radius: var(--r-lg);
+      box-shadow: var(--keyline);
+    }
+    .brand {
+      margin-right: auto;
+      font-family: var(--display);
+      font-size: 1.3rem;
+      color: var(--soot);
+      white-space: nowrap;
+      text-decoration: none;
+    }
+    .links {
+      display: flex;
+      gap: 2px;
+      padding: 0;
+      overflow-x: auto;
+      list-style: none;
+      scrollbar-width: none;
+    }
+    .links::-webkit-scrollbar {
+      display: none;
+    }
+    .links a {
+      display: flex;
+      align-items: center;
+      min-height: 44px;
+      padding: 0 12px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--soot);
+      text-decoration: none;
+      border-radius: var(--r-sm);
+      transition:
+        background-color 160ms var(--ease),
+        transform 160ms var(--ease);
+    }
+    .links a[aria-current="page"] {
+      color: var(--cream);
+      background: var(--soot);
+    }
+    .links a:active {
+      transform: scale(0.97);
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .links a:not([aria-current]):hover {
+        background: var(--orange);
+      }
+    }
+
+    /* hero grid */
+    .hero-grid {
+      display: grid;
+      gap: 20px;
+      align-items: start;
+      padding-top: 28px;
+    }
+    .hero-copy h1 {
+      font-size: clamp(2.75rem, 6.4vw, 5.5rem);
+      letter-spacing: -0.02em;
+    }
+    .hero-copy p.sub {
+      margin-top: 14px;
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: var(--soot);
+    }
+    .acting {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 8px 12px;
+      align-items: center;
+      padding: 8px 14px;
+      margin-top: 20px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--cream);
+      background: var(--soot);
+      border-radius: var(--r-sm);
+    }
+    .acting .ja {
+      font-family: var(--display);
+      font-size: 0.9rem;
+      color: var(--sky);
+    } /* sky on soot 10:1 */
+
+    /* form plate */
+    .form-plate {
+      padding: 22px;
+      background: var(--cream);
+      border-radius: var(--r-lg);
+      box-shadow: var(--keyline);
+    }
+    .fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .f {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 0;
+    }
+    .f.wide {
+      grid-column: 1 / -1;
+    }
+    label {
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+    input,
+    select {
+      width: 100%;
+      height: 48px;
+      padding: 0 12px;
+      font: inherit;
+      font-size: 1rem;
+      color: var(--soot);
+      background: #fff;
+      border: 2px solid var(--soot);
+      border-radius: var(--r-sm);
+    }
+    input::placeholder {
+      color: var(--ph);
+      opacity: 1;
+    }
+    select {
+      padding-right: 40px;
+      appearance: none;
+      background-image:
+        linear-gradient(45deg, transparent 50%, var(--soot) 50%),
+        linear-gradient(135deg, var(--soot) 50%, transparent 50%);
+      background-repeat: no-repeat;
+      background-position:
+        calc(100% - 22px) 21px,
+        calc(100% - 16px) 21px;
+      background-size: 6px 6px;
+    }
+    input:focus-visible,
+    select:focus-visible {
+      outline: 3px solid var(--soot);
+      outline-offset: 2px;
+    }
+    .btn {
+      width: 100%;
+      height: 52px;
+      padding: 0 22px;
+      font: inherit;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--soot);
+      white-space: nowrap;
+      cursor: pointer;
+      background: var(--orange);
+      border: 2px solid var(--soot);
+      border-radius: var(--r-sm);
+      transition:
+        transform 160ms var(--ease),
+        background-color 160ms var(--ease);
+    }
+    .btn:active {
+      transform: scale(0.97);
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .btn:hover {
+        background: #f79a3a;
+      }
+    }
+    .btn-row {
+      align-self: end;
+    }
+    .status {
+      grid-column: 1 / -1;
+      min-height: 1.4em;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--soot);
+    }
+    .status.err {
+      color: #8a1c12;
+    } /* 7.6:1 on cream */
+
+    /* ---------- sections as colour fields ---------- */
+    .field {
+      position: relative;
+      padding: 72px 0 64px;
+      margin-top: 0;
+    }
+    .field::before {
+      position: absolute;
+      top: -23px;
+      right: 0;
+      left: 0;
+      height: 24px;
+      content: "";
+      background:
+        radial-gradient(
+          circle at 20px 24px,
+          var(--bg) 19.5px,
+          transparent 20.5px
+        )
+        0 0 / 40px 24px repeat-x;
+    }
+    .field h2 {
+      margin-bottom: 8px;
+      font-size: clamp(2rem, 4.4vw, 3rem);
+    }
+    .field .lede {
+      margin-bottom: 28px;
+      font-weight: 500;
+    }
+    .f-green {
+      --bg: var(--green);
+      background: var(--green);
+    }
+    .f-orange {
+      --bg: var(--orange);
+      background: var(--orange);
+    }
+    .f-sky {
+      --bg: var(--sky);
+      background: var(--sky);
+    }
+    .f-cream {
+      --bg: var(--cream);
+      background: var(--cream);
+    }
+    .hero {
+      --bg: var(--sky-soft);
+    }
+
+    /* plates + entrance */
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+    }
+    .rise {
+      animation: rise 360ms var(--ease) both;
+      animation-delay: calc(var(--i, 0) * 40ms);
+    }
+    .plate {
+      overflow: hidden;
+      background: var(--cream);
+      border-radius: var(--r-lg);
+      box-shadow: var(--keyline);
+      transition: transform 200ms var(--ease);
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .plate.lift:hover {
+        transform: translateY(-3px);
+      }
+    }
+
+    /* cast plates */
+    .cast {
+      display: grid;
+      gap: 22px;
+      padding: 0;
+      list-style: none;
+    }
+    .member {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+    .rank {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      padding: 18px 20px 10px;
+      color: var(--soot);
+      background-image: repeating-linear-gradient(
+        135deg,
+        rgba(29, 31, 28, 0.09) 0 2px,
+        transparent 2px 12px
+      );
+    }
+    .rank .num {
+      font-family: var(--display);
+      font-size: 5.5rem;
+      line-height: 0.85;
+      letter-spacing: -0.03em;
+    }
+    .rank .role {
+      padding: 4px 12px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      background: var(--cream);
+      border-radius: var(--r-sm);
+    }
+    .m-orange .rank {
+      background-color: var(--orange);
+    }
+    .m-sky .rank {
+      background-color: var(--sky);
+    }
+    .m-green .rank {
+      background-color: var(--green);
+    }
+    .ribbon {
+      position: relative;
+      height: 16px;
+      background: var(--soot);
+    }
+    .ribbon::after {
+      position: absolute;
+      inset: 0;
+      top: 6px;
+      height: 4px;
+      content: "";
+      background: repeating-linear-gradient(
+        90deg,
+        var(--cream) 0 10px,
+        transparent 10px 22px
+      );
+      opacity: 0.9;
+    }
+    .m-body {
+      padding: 18px 20px 22px;
+    }
+    .m-body h3 {
+      font-size: 2rem;
+      letter-spacing: -0.01em;
+    }
+    .m-body dl {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 2px 12px;
+      margin-top: 12px;
+      font-size: 0.95rem;
+    }
+    .m-body dt {
+      font-weight: 700;
+    }
+    .m-body dd {
+      color: var(--ink-soft);
+    }
+    .note {
+      padding-top: 12px;
+      margin-top: 14px;
+      font-weight: 500;
+      border-top: 2px dashed var(--soot);
+    }
+
+    /* rooms */
+    .rooms {
+      display: grid;
+      gap: 22px;
+      padding: 0;
+      list-style: none;
+    }
+    .room {
+      display: flex;
+      gap: 12px;
+      align-items: flex-end;
+      justify-content: space-between;
+      min-height: 150px;
+      padding: 20px;
+    }
+    .room h3 {
+      font-size: 2.2rem;
+    }
+    .room .seats {
+      line-height: 1;
+      text-align: right;
+    }
+    .room .seats b {
+      display: block;
+      font-family: var(--display);
+      font-size: 4rem;
+      font-weight: 400;
+    }
+    .room .seats span {
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+    .r-orange {
+      background: linear-gradient(var(--orange) 0 14px, var(--cream) 14px);
+    }
+    .r-sky {
+      background: linear-gradient(var(--sky) 0 14px, var(--cream) 14px);
+    }
+    .r-green {
+      background: linear-gradient(var(--green) 0 14px, var(--cream) 14px);
+    }
+
+    /* bookings */
+    .head-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 16px;
+      align-items: baseline;
+      margin-bottom: 22px;
+    }
+    .head-row h2 {
+      margin: 0;
+    }
+    .tag {
+      padding: 4px 10px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--cream);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      background: var(--soot);
+      border-radius: var(--r-sm);
+    }
+    .slots {
+      display: grid;
+      gap: 14px;
+      padding: 0;
+      list-style: none;
+    }
+    .slot {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 4px;
+      padding: 16px 20px;
+    }
+    .slot .t {
+      font-family: var(--display);
+      font-size: 1.7rem;
+    }
+    .slot .rm {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+    .slot .who {
+      color: var(--ink-soft);
+    }
+    .utc {
+      margin-top: 14px;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    /* tasks */
+    .task-form {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      max-width: 620px;
+      margin-bottom: 24px;
+    }
+    .empty {
+      position: relative;
+      display: grid;
+      gap: 6px;
+      align-content: center;
+      min-height: 220px;
+      padding: 36px 24px;
+      overflow: hidden;
+      background: var(--orange);
+    }
+    .empty .zero {
+      position: absolute;
+      right: 16px;
+      bottom: -34px;
+      font-family: var(--display);
+      font-size: 11rem;
+      line-height: 1;
+      color: transparent;
+      -webkit-text-stroke: 3px var(--soot);
+      pointer-events: none;
+      opacity: 0.28;
+    }
+    .empty p {
+      position: relative;
+      max-width: 22ch;
+      font-family: var(--display);
+      font-size: clamp(1.5rem, 3.6vw, 2.4rem);
+      line-height: 1.2;
+    }
+    .empty p small {
+      display: block;
+      margin-top: 8px;
+      font-family: var(--body);
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+    .empty .ja {
+      position: relative;
+      font-weight: 600;
+    }
+    .tasklist {
+      display: grid;
+      gap: 12px;
+      padding: 0;
+      margin-top: 0;
+      list-style: none;
+    }
+    .tasklist li {
+      padding: 14px 18px;
+      font-weight: 600;
+    }
+
+    footer {
+      padding: 28px 0 32px;
+      font-size: 0.9rem;
+      color: var(--cream);
+      background: var(--soot);
+    }
+    footer .wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 24px;
+      justify-content: space-between;
+    }
+    footer .ja {
+      font-family: var(--display);
+      color: var(--sky);
+    }
+
+    /* ---------- breakpoints ---------- */
+    @media (min-width: 640px) {
+      .nav-in {
+        padding-left: 20px;
+      }
+      .cast,
+      .rooms {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .slot {
+        grid-template-columns: 150px 1fr 1fr 110px;
+        gap: 16px;
+        align-items: center;
+      }
+      .task-form {
+        grid-template-columns: 1fr auto;
+      }
+      .task-form .btn {
+        width: auto;
+      }
+    }
+    @media (min-width: 640px) and (max-width: 899px) {
+      .cast,
+      .rooms {
+        grid-template-columns: 1fr;
+      }
+      .member {
+        grid-template-columns: 200px 1fr;
+      }
+      .rank {
+        flex-direction: column;
+        gap: 20px;
+        align-items: flex-start;
+        justify-content: space-between;
+      }
+    }
+    @media (min-width: 900px) {
+      .hero-grid {
+        grid-template-columns: minmax(0, 1fr) 520px;
+        gap: 48px;
+        padding-top: 44px;
+      }
+      .hero-copy {
+        padding-top: 12px;
+      }
+    }
+    @media (max-width: 639px) {
+      .brand {
+        display: none;
+      }
+      .nav-in {
+        padding: 0 6px;
+      }
+      .links {
+        justify-content: space-between;
+        width: 100%;
+      }
+      .links {
+        gap: 0;
+      }
+      .links a {
+        padding: 0 4px;
+        font-size: 0.78rem;
+      }
+      .status:empty {
+        display: none;
+      }
+      .hero-grid {
+        gap: 16px;
+        padding-top: 12px;
+      }
+      .hero-copy h1 {
+        font-size: 2.6rem;
+      }
+      .hero-copy p.sub {
+        margin-top: 8px;
+        font-size: 1rem;
+      }
+      .acting {
+        margin-top: 12px;
+      }
+      .form-plate {
+        order: 2;
+        padding: 18px;
+      }
+      .hero-copy {
+        order: 1;
+      }
+      .fields {
+        grid-template-columns: 1fr 1fr;
+      }
+      .field {
+        padding: 60px 0 48px;
+      }
+      .rank .num {
+        font-size: 4.6rem;
+      }
+      .empty .zero {
+        font-size: 8rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .clouds,
+      .rise {
+        animation: none !important;
+      }
+      * {
+        transition: none !important;
+      }
+    }
+    </style>
+  </head>
+  <body>
+    <!--
+THESIS: A Japanese character-goods catalogue where the team is a ranked cast of name plates.
+OWN-WORLD: Camphor green, sky, acorn orange, cream and soot as big committed fields; scalloped cumulus edges; grain; bubble-face lettering. No drawn creatures.
+STORY: Morning sky over a shop shelf of plates: each person and room gets a numbered plate with a ribbon, a birthday and a note.
+FIRST VIEWPORT: Nav, a huge "Book a room." headline with who you are acting as, and the booking form beside it with the orange Book button fully in view.
+FORM: Five fields and one button in a plain cream plate. No decoration between fields and button, no animation on fields.
+-->
+    <div aria-hidden="true" class="grain"></div>
+
+    <header class="hero">
+      <div aria-hidden="true" class="sky">
+        <div class="clouds far"></div>
+        <div class="clouds near"></div>
+      </div>
+      <div class="wrap">
+        <div class="nav">
+          <nav aria-label="Main" class="nav-in">
+            <a class="brand" href="#">Teamdesk</a>
+            <ul class="links">
+              <li><a href="#">Home</a></li>
+              <li><a href="#">About</a></li>
+              <li><a href="#">Notes</a></li>
+              <li><a href="#">Team</a></li>
+              <li><a href="#">Rooms</a></li>
+              <li><a aria-current="page" href="#">Bookings</a></li>
+              <li><a href="#">Tasks</a></li>
+            </ul>
+          </nav>
+        </div>
+
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <h1>Book a room.</h1>
+            <p class="sub">
+              Pick a room, a time and a headcount. Done in seconds.
+            </p>
+            <p class="acting">
+              <span>Acting as Ana Rossi (member)</span
+              ><span class="ja" lang="ja">ようこそ</span>
+            </p>
+          </div>
+
+          <form
+            aria-label="Book a room"
+            class="form-plate"
+            id="book"
+            novalidate
+          >
+            <div class="fields">
+              <div class="f wide">
+                <label for="room">Room</label>
+                <select id="room" name="room" required>
+                  <option data-seats="2" value="Bridge">Bridge, seats 2</option>
+                  <option data-seats="10" value="Harbour">
+                    Harbour, seats 10
+                  </option>
+                  <option data-seats="6" value="Quay">Quay, seats 6</option>
+                </select>
+              </div>
+              <div class="f wide">
+                <label for="date">Date</label>
+                <input
+                  id="date"
+                  name="date"
+                  required
+                  type="date"
+                  value="2026-11-17"
+                >
+              </div>
+              <div class="f">
+                <label for="start">Start</label>
+                <input
+                  id="start"
+                  name="start"
+                  required
+                  type="time"
+                  value="15:30"
+                >
+              </div>
+              <div class="f">
+                <label for="end">End</label>
+                <input id="end" name="end" required type="time" value="16:30">
+              </div>
+              <div class="f">
+                <label for="att">Attendees</label>
+                <input
+                  id="att"
+                  inputmode="numeric"
+                  min="1"
+                  name="att"
+                  placeholder="How many?"
+                  required
+                  type="number"
+                >
+              </div>
+              <div class="f btn-row">
+                <button class="btn" type="submit">Book room</button>
+              </div>
+              <p
+                aria-live="polite"
+                class="status"
+                id="status"
+                role="status"
+              ></p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </header>
+
+    <section aria-labelledby="cast-h" class="field f-green">
+      <div class="wrap">
+        <h2 id="cast-h">The cast</h2>
+        <p class="lede">Three people on the desk this season.</p>
+        <ol class="cast">
+          <li class="plate member lift rise m-orange" style="--i:0">
+            <div class="rank">
+              <span aria-hidden="true" class="num">01</span
+              ><span class="role">Member</span>
+            </div>
+            <div>
+              <div aria-hidden="true" class="ribbon"></div>
+              <div class="m-body">
+                <h3>Ana Rossi</h3>
+                <dl>
+                  <dt>Birthday</dt>
+                  <dd>2026-03-02 (joined)</dd>
+                </dl>
+                <p class="note">Likes the early slot in Harbour.</p>
+              </div>
+            </div>
+          </li>
+          <li class="plate member lift rise m-sky" style="--i:1">
+            <div class="rank">
+              <span aria-hidden="true" class="num">02</span
+              ><span class="role">Member</span>
+            </div>
+            <div>
+              <div aria-hidden="true" class="ribbon"></div>
+              <div class="m-body">
+                <h3>Ben Walker</h3>
+                <dl>
+                  <dt>Birthday</dt>
+                  <dd>2026-06-20 (joined)</dd>
+                </dl>
+                <p class="note">Brings the whiteboard markers, always.</p>
+              </div>
+            </div>
+          </li>
+          <li class="plate member lift rise m-green" style="--i:2">
+            <div class="rank">
+              <span aria-hidden="true" class="num">03</span
+              ><span class="role">Admin</span>
+            </div>
+            <div>
+              <div aria-hidden="true" class="ribbon"></div>
+              <div class="m-body">
+                <h3>Kim Nguyen</h3>
+                <dl>
+                  <dt>Birthday</dt>
+                  <dd>2026-01-12 (joined)</dd>
+                </dl>
+                <p class="note">
+                  Keeps the rooms tidy and the calendar honest.
+                </p>
+              </div>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section aria-labelledby="rooms-h" class="field f-orange">
+      <div class="wrap">
+        <h2 id="rooms-h">Rooms</h2>
+        <p class="lede">Three rooms, sized for two, six or ten.</p>
+        <ul class="rooms">
+          <li class="plate room r-orange lift rise" style="--i:0">
+            <h3>Bridge</h3>
+            <p class="seats"><b>2</b><span>seats</span></p>
+          </li>
+          <li class="plate room r-sky lift rise" style="--i:1">
+            <h3>Harbour</h3>
+            <p class="seats"><b>10</b><span>seats</span></p>
+          </li>
+          <li class="plate room r-green lift rise" style="--i:2">
+            <h3>Quay</h3>
+            <p class="seats"><b>6</b><span>seats</span></p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section aria-labelledby="today-h" class="field f-sky">
+      <div class="wrap">
+        <div class="head-row">
+          <h2 id="today-h">Today's bookings</h2>
+          <span class="tag">sample bookings</span>
+        </div>
+        <p class="lede" style="margin-bottom:22px">Tuesday 2026-11-17</p>
+        <ul class="slots" id="slots">
+          <li class="plate slot rise" style="--i:0">
+            <span class="t">09:00 to 10:00</span><span class="rm">Harbour</span
+            ><span class="who">Ana Rossi</span><span>4 people</span>
+          </li>
+          <li class="plate slot rise" style="--i:1">
+            <span class="t">11:30 to 12:30</span><span class="rm">Bridge</span
+            ><span class="who">Ben Walker</span><span>2 people</span>
+          </li>
+          <li class="plate slot rise" style="--i:2">
+            <span class="t">14:00 to 15:30</span><span class="rm">Quay</span
+            ><span class="who">Kim Nguyen</span><span>5 people</span>
+          </li>
+        </ul>
+        <p class="utc">All times are UTC.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="tasks-h" class="field f-cream">
+      <div class="wrap">
+        <h2 id="tasks-h">Tasks</h2>
+        <p class="lede">Hand one out, tick it off.</p>
+        <form class="task-form" id="taskform" novalidate>
+          <div class="f">
+            <label for="task">New task</label>
+            <input
+              autocomplete="off"
+              id="task"
+              placeholder="What needs doing?"
+              type="text"
+            >
+          </div>
+          <button class="btn" style="align-self:end" type="submit">
+            Add task
+          </button>
+        </form>
+        <ul class="tasklist" id="tasklist"></ul>
+        <div class="plate empty rise" id="empty">
+          <span aria-hidden="true" class="zero">0</span>
+          <p>
+            <strong style="font-weight:400">No tasks yet.</strong>
+            Add the first one above.
+          </p>
+          <span class="ja" lang="ja">今日もいい一日を</span>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="wrap">
+        <span>Teamdesk: rooms, bookings and tasks for a small team.</span>
+        <span class="ja" lang="ja">今日もいい一日を</span>
+      </div>
+    </footer>
+
+    <script>
+    "use strict";
+    (() => {
+      var form = document.getElementById("book"),
+        status = document.getElementById("status");
+      var slots = document.getElementById("slots");
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        var sel = form.room,
+          seats = +sel.selectedOptions[0].dataset.seats,
+          n = +form.att.value;
+        status.className = "status";
+        if (!(form.date.value && form.start.value && form.end.value && n)) {
+          status.className = "status err";
+          status.textContent = "Fill in every field, then book.";
+          return;
+        }
+        if (form.end.value <= form.start.value) {
+          status.className = "status err";
+          status.textContent = "End time must be after the start time.";
+          return;
+        }
+        if (n > seats) {
+          status.className = "status err";
+          status.textContent =
+            sel.value +
+            " seats " +
+            seats +
+            ". Pick a bigger room or fewer people.";
+          return;
+        }
+        var li = document.createElement("li");
+        li.className = "plate slot";
+        li.innerHTML =
+          '<span class="t"></span><span class="rm"></span><span class="who">Ana Rossi</span><span></span>';
+        li.children[0].textContent = form.start.value + " to " + form.end.value;
+        li.children[1].textContent = sel.value;
+        li.children[3].textContent = n + (n === 1 ? " person" : " people");
+        slots.appendChild(li);
+        status.textContent =
+          "Booked: " +
+          sel.value +
+          ", " +
+          form.start.value +
+          " to " +
+          form.end.value +
+          ".";
+      });
+      var tf = document.getElementById("taskform"),
+        list = document.getElementById("tasklist"),
+        empty = document.getElementById("empty");
+      tf.addEventListener("submit", (e) => {
+        e.preventDefault();
+        var v = document.getElementById("task").value.trim();
+        if (!v) {
+          return;
+        }
+        var li = document.createElement("li");
+        li.className = "plate";
+        li.textContent = v;
+        list.appendChild(li);
+        empty.hidden = true;
+        document.getElementById("task").value = "";
+      });
+    })();
+    </script>
+  </body>
+</html>
